@@ -7,6 +7,18 @@
 <title>Attendance List</title>
 </head>
 <body>
+<%@ page import="com.attendance.dao.AttendanceDAO"%>
+<%@ page import="com.attendance.model.Student"%>
+<%@ page import="java.util.List"%>
+<%
+    AttendanceDAO attendanceDAO = new AttendanceDAO();
+    List<Student> students = null;
+    try{
+    	students=attendanceDAO.getAllAttendance();
+    }catch(Exception e){
+    	System.out.println("Error fetching attendance data: " + e.getMessage());
+    }
+%>
 <table border=1>
 <tr>
 <th>ID</th>
@@ -15,7 +27,14 @@
 <th>Date</th>
 <th>Status</th>
 </tr>
-<c:forEach var="student" items="${students}">
+<% for (Student student : students) { %>
+        <tr>
+            <td><%= student.getStudentId() %></td>
+            <td><%= student.getDate() %></td>
+            <td><%= student.getStatus() %></td>
+        </tr>
+    <% } %>
+<%-- <c:forEach var="student" items="${students}">
 <tr>
 <td>${student.id}</td>
 <td>${student.student_name}</td>
@@ -23,7 +42,7 @@
 <td>${student.attendance_date}</td>
 <td>${student.status}</td>
 </tr>			
-</c:forEach>
+</c:forEach> --%>
 </table>
 </body>
 </html>
